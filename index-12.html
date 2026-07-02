@@ -1,0 +1,2403 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Что мешает вам говорить по-французски?</title>
+
+<style>
+
+/* ============================================================
+
+   ЦВЕТОВЫЕ ТОКЕНЫ
+
+   Палитра: тёмный индиго → фиолетовый → лаванда, кремовый, золото
+
+   Типографика: системный шрифт + тёплые акценты
+
+   ============================================================ */
+
+:root {
+
+  --bg-deep:    #0f0e1a;
+
+  --bg-mid:     #1a1830;
+
+  --indigo:     #2d2b6b;
+
+  --violet:     #5b4fcf;
+
+  --violet-lt:  #7b6fe8;
+
+  --lavender:   #a89ff5;
+
+  --cream:      #f5f3ff;
+
+  --white:      #ffffff;
+
+  --gold:       #e8c97e;
+
+  --gold-lt:    #f5e4a8;
+
+  --glass-bg:   rgba(255,255,255,0.07);
+
+  --glass-border: rgba(255,255,255,0.14);
+
+  --text-main:  #f0eeff;
+
+  --text-muted: #9b95cc;
+
+  --radius-lg:  20px;
+
+  --radius-xl:  32px;
+
+  --radius-card:24px;
+
+  --shadow-card: 0 8px 40px rgba(0,0,0,0.35);
+
+  --shadow-btn:  0 4px 24px rgba(91,79,207,0.45);
+
+}
+
+/* ============================================================
+
+   СБРОС И БАЗОВЫЕ СТИЛИ
+
+   ============================================================ */
+
+*,* ::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+
+  background: var(--bg-deep);
+
+  color: var(--text-main);
+
+  min-height: 100vh;
+
+  overflow-x: hidden;
+
+  line-height: 1.6;
+
+}
+
+/* ============================================================
+
+   ЖИВОЙ ФОН (градиентные свечения)
+
+   ============================================================ */
+
+body::before {
+
+  content: '';
+
+  position: fixed;
+
+  inset: 0;
+
+  background:
+
+    radial-gradient(ellipse 80% 60% at 20% 0%, rgba(91,79,207,0.28) 0%, transparent 70%),
+
+    radial-gradient(ellipse 60% 50% at 80% 100%, rgba(45,43,107,0.4) 0%, transparent 70%),
+
+    radial-gradient(ellipse 40% 40% at 60% 40%, rgba(168,159,245,0.08) 0%, transparent 60%);
+
+  pointer-events: none;
+
+  z-index: 0;
+
+}
+
+/* ============================================================
+
+   ВСПОМОГАТЕЛЬНЫЕ СТИЛИ
+
+   ============================================================ */
+
+.container {
+
+  max-width: 680px;
+
+  margin: 0 auto;
+
+  padding: 0 24px;
+
+  position: relative;
+
+  z-index: 1;
+
+}
+
+/* ============================================================
+
+   СИСТЕМА ЭКРАНОВ
+
+   ============================================================ */
+
+.screen {
+
+  display: none;
+
+  min-height: 100vh;
+
+  position: relative;
+
+  z-index: 1;
+
+}
+
+.screen.active {
+
+  display: flex;
+
+  flex-direction: column;
+
+}
+
+/* Анимация появления и исчезновения */
+
+@keyframes fadeSlideIn {
+
+  from { opacity: 0; transform: translateY(28px); }
+
+  to   { opacity: 1; transform: translateY(0); }
+
+}
+
+@keyframes fadeSlideOut {
+
+  from { opacity: 1; transform: translateY(0); }
+
+  to   { opacity: 0; transform: translateY(-20px); }
+
+}
+
+.animate-in  { animation: fadeSlideIn  0.45s cubic-bezier(.22,1,.36,1) forwards; }
+
+.animate-out { animation: fadeSlideOut 0.28s ease forwards; }
+
+/* ============================================================
+
+   ГЛАВНЫЙ ЭКРАН
+
+   ============================================================ */
+
+#screen-hero {
+
+  justify-content: center;
+
+  align-items: center;
+
+  padding: 60px 0;
+
+}
+
+.hero-inner {
+
+  text-align: center;
+
+  max-width: 560px;
+
+  margin: 0 auto;
+
+  padding: 0 24px;
+
+}
+
+/* Декоративный флаг-бейдж */
+
+.hero-badge {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  background: var(--glass-bg);
+
+  border: 1px solid var(--glass-border);
+
+  border-radius: 100px;
+
+  padding: 8px 18px;
+
+  font-size: 13px;
+
+  color: var(--lavender);
+
+  letter-spacing: 0.04em;
+
+  margin-bottom: 36px;
+
+  backdrop-filter: blur(12px);
+
+}
+
+.hero-badge .flag { font-size: 18px; }
+
+/* Главный заголовок */
+
+.hero-title {
+
+  font-size: clamp(32px, 6vw, 56px);
+
+  font-weight: 800;
+
+  line-height: 1.15;
+
+  letter-spacing: -0.02em;
+
+  margin-bottom: 20px;
+
+  color: var(--white);
+
+}
+
+.hero-title .accent {
+
+  background: linear-gradient(135deg, var(--gold), var(--lavender));
+
+  -webkit-background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+
+  background-clip: text;
+
+}
+
+.hero-sub {
+
+  font-size: 17px;
+
+  color: var(--text-muted);
+
+  margin-bottom: 48px;
+
+  line-height: 1.7;
+
+}
+
+/* Декоративные характеристики */
+
+.hero-stats {
+
+  display: flex;
+
+  justify-content: center;
+
+  gap: 32px;
+
+  margin-bottom: 48px;
+
+  flex-wrap: wrap;
+
+}
+
+.hero-stat {
+
+  text-align: center;
+
+}
+
+.hero-stat-num {
+
+  font-size: 26px;
+
+  font-weight: 700;
+
+  color: var(--gold);
+
+  display: block;
+
+  line-height: 1;
+
+}
+
+.hero-stat-label {
+
+  font-size: 12px;
+
+  color: var(--text-muted);
+
+  margin-top: 4px;
+
+  letter-spacing: 0.03em;
+
+}
+
+/* ============================================================
+
+   КНОПКИ
+
+   ============================================================ */
+
+.btn-primary {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  background: linear-gradient(135deg, var(--violet), var(--indigo));
+
+  color: var(--white);
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  padding: 18px 40px;
+
+  border-radius: 100px;
+
+  border: none;
+
+  cursor: pointer;
+
+  box-shadow: var(--shadow-btn);
+
+  transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s;
+
+  letter-spacing: 0.01em;
+
+  position: relative;
+
+  overflow: hidden;
+
+}
+
+.btn-primary::before {
+
+  content: '';
+
+  position: absolute;
+
+  inset: 0;
+
+  background: linear-gradient(135deg, rgba(255,255,255,0.12), transparent);
+
+  opacity: 0;
+
+  transition: opacity 0.18s;
+
+}
+
+.btn-primary:hover::before { opacity: 1; }
+
+.btn-primary:hover {
+
+  transform: translateY(-2px) scale(1.02);
+
+  box-shadow: 0 8px 36px rgba(91,79,207,0.6);
+
+}
+
+.btn-primary:active { transform: scale(0.98); }
+
+.btn-arrow {
+
+  width: 20px;
+
+  height: 20px;
+
+  transition: transform 0.18s ease;
+
+}
+
+.btn-primary:hover .btn-arrow { transform: translateX(4px); }
+
+.btn-secondary {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  background: transparent;
+
+  color: var(--lavender);
+
+  font-size: 14px;
+
+  font-weight: 500;
+
+  padding: 12px 24px;
+
+  border-radius: 100px;
+
+  border: 1px solid var(--glass-border);
+
+  cursor: pointer;
+
+  transition: all 0.18s ease;
+
+}
+
+.btn-secondary:hover {
+
+  background: var(--glass-bg);
+
+  border-color: var(--lavender);
+
+}
+
+/* ============================================================
+
+   ПОЛОСА ПРОГРЕССА
+
+   ============================================================ */
+
+.progress-wrap {
+
+  position: fixed;
+
+  top: 0; left: 0; right: 0;
+
+  z-index: 100;
+
+  padding: 16px 24px 12px;
+
+  background: linear-gradient(to bottom, rgba(15,14,26,0.9), transparent);
+
+  backdrop-filter: blur(8px);
+
+}
+
+.progress-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  max-width: 680px;
+
+  margin: 0 auto 10px;
+
+}
+
+.progress-label {
+
+  font-size: 12px;
+
+  color: var(--text-muted);
+
+  letter-spacing: 0.04em;
+
+}
+
+.progress-fraction {
+
+  font-size: 12px;
+
+  color: var(--lavender);
+
+  font-weight: 600;
+
+}
+
+.progress-bar-track {
+
+  max-width: 680px;
+
+  margin: 0 auto;
+
+  height: 4px;
+
+  background: rgba(255,255,255,0.08);
+
+  border-radius: 100px;
+
+  overflow: hidden;
+
+}
+
+.progress-bar-fill {
+
+  height: 100%;
+
+  background: linear-gradient(90deg, var(--violet), var(--gold));
+
+  border-radius: 100px;
+
+  transition: width 0.5s cubic-bezier(.22,1,.36,1);
+
+  width: 0%;
+
+  position: relative;
+
+}
+
+.progress-bar-fill::after {
+
+  content: '';
+
+  position: absolute;
+
+  right: 0; top: 0; bottom: 0;
+
+  width: 24px;
+
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4));
+
+  border-radius: 100px;
+
+}
+
+/* ============================================================
+
+   ЭКРАН ПЕРЕХОДА К БЛОКУ
+
+   ============================================================ */
+
+#screen-block {
+
+  justify-content: center;
+
+  align-items: center;
+
+}
+
+.block-card {
+
+  text-align: center;
+
+  padding: 64px 48px;
+
+  background: var(--glass-bg);
+
+  border: 1px solid var(--glass-border);
+
+  border-radius: var(--radius-xl);
+
+  backdrop-filter: blur(24px);
+
+  max-width: 460px;
+
+  width: calc(100% - 48px);
+
+  box-shadow: var(--shadow-card);
+
+}
+
+.block-number {
+
+  font-size: 11px;
+
+  letter-spacing: 0.12em;
+
+  text-transform: uppercase;
+
+  color: var(--text-muted);
+
+  margin-bottom: 16px;
+
+}
+
+.block-icon {
+
+  font-size: 48px;
+
+  margin-bottom: 20px;
+
+  display: block;
+
+  filter: drop-shadow(0 0 12px rgba(232,201,126,0.4));
+
+}
+
+.block-title {
+
+  font-size: 32px;
+
+  font-weight: 800;
+
+  letter-spacing: -0.02em;
+
+  color: var(--white);
+
+  margin-bottom: 12px;
+
+}
+
+.block-desc {
+
+  font-size: 15px;
+
+  color: var(--text-muted);
+
+  line-height: 1.6;
+
+  margin-bottom: 32px;
+
+}
+
+/* ============================================================
+
+   ЭКРАН КВИЗА
+
+   ============================================================ */
+
+#screen-quiz {
+
+  padding-top: 100px;
+
+  padding-bottom: 60px;
+
+}
+
+.quiz-inner {
+
+  padding-top: 20px;
+
+}
+
+/* Карточка вопроса */
+
+.question-card {
+
+  background: var(--glass-bg);
+
+  border: 1px solid var(--glass-border);
+
+  border-radius: var(--radius-card);
+
+  padding: 36px 36px 28px;
+
+  backdrop-filter: blur(20px);
+
+  box-shadow: var(--shadow-card);
+
+  margin-bottom: 20px;
+
+}
+
+.question-block-label {
+
+  font-size: 11px;
+
+  letter-spacing: 0.1em;
+
+  text-transform: uppercase;
+
+  color: var(--lavender);
+
+  margin-bottom: 16px;
+
+  font-weight: 600;
+
+}
+
+.question-text {
+
+  font-size: clamp(18px, 3.5vw, 22px);
+
+  font-weight: 700;
+
+  line-height: 1.45;
+
+  color: var(--white);
+
+  letter-spacing: -0.01em;
+
+}
+
+/* Карточки ответов */
+
+.answers-grid {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+
+}
+
+.answer-card {
+
+  background: var(--glass-bg);
+
+  border: 1.5px solid var(--glass-border);
+
+  border-radius: var(--radius-lg);
+
+  padding: 18px 22px;
+
+  cursor: pointer;
+
+  transition: all 0.22s cubic-bezier(.22,1,.36,1);
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  backdrop-filter: blur(12px);
+
+  position: relative;
+
+  overflow: hidden;
+
+  -webkit-tap-highlight-color: transparent;
+
+}
+
+.answer-card::before {
+
+  content: '';
+
+  position: absolute;
+
+  inset: 0;
+
+  background: linear-gradient(135deg, rgba(91,79,207,0.15), transparent);
+
+  opacity: 0;
+
+  transition: opacity 0.22s;
+
+}
+
+.answer-card:hover::before { opacity: 1; }
+
+.answer-card:hover {
+
+  border-color: var(--violet-lt);
+
+  transform: translateY(-2px) scale(1.012);
+
+  box-shadow: 0 8px 28px rgba(91,79,207,0.25);
+
+}
+
+.answer-card:active { transform: scale(0.98); }
+
+/* Выбранный ответ */
+
+.answer-card.selected {
+
+  border-color: var(--gold);
+
+  background: rgba(232,201,126,0.1);
+
+  transform: scale(1.01);
+
+  box-shadow: 0 0 0 1px var(--gold), 0 8px 28px rgba(232,201,126,0.2);
+
+}
+
+.answer-card.selected::before { opacity: 0; }
+
+/* Буква варианта */
+
+.answer-letter {
+
+  width: 32px;
+
+  height: 32px;
+
+  min-width: 32px;
+
+  border-radius: 50%;
+
+  background: rgba(255,255,255,0.08);
+
+  border: 1px solid rgba(255,255,255,0.12);
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  color: var(--text-muted);
+
+  letter-spacing: 0;
+
+  transition: all 0.22s;
+
+}
+
+.answer-card:hover .answer-letter {
+
+  background: var(--violet);
+
+  border-color: var(--violet);
+
+  color: var(--white);
+
+}
+
+.answer-card.selected .answer-letter {
+
+  background: var(--gold);
+
+  border-color: var(--gold);
+
+  color: var(--bg-deep);
+
+}
+
+.answer-text {
+
+  font-size: 15px;
+
+  color: var(--text-main);
+
+  line-height: 1.45;
+
+  flex: 1;
+
+}
+
+.answer-card.selected .answer-text { color: var(--white); font-weight: 500; }
+
+/* ============================================================
+
+   ЭКРАН РЕЗУЛЬТАТА
+
+   ============================================================ */
+
+#screen-result {
+
+  padding: 80px 0 60px;
+
+  justify-content: flex-start;
+
+}
+
+.result-inner { padding: 20px 0 0; }
+
+.result-score-wrap {
+
+  text-align: center;
+
+  margin-bottom: 32px;
+
+}
+
+.result-score-ring {
+
+  width: 100px;
+
+  height: 100px;
+
+  border-radius: 50%;
+
+  background: linear-gradient(135deg, var(--violet), var(--indigo));
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  margin: 0 auto 20px;
+
+  box-shadow: 0 0 40px rgba(91,79,207,0.5);
+
+  font-size: 13px;
+
+  color: var(--lavender);
+
+  letter-spacing: 0.04em;
+
+  flex-direction: column;
+
+}
+
+.result-score-num {
+
+  font-size: 28px;
+
+  font-weight: 800;
+
+  color: var(--white);
+
+  line-height: 1;
+
+}
+
+.result-score-label {
+
+  font-size: 10px;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.08em;
+
+  color: var(--lavender);
+
+}
+
+.result-card {
+
+  background: var(--glass-bg);
+
+  border: 1px solid var(--glass-border);
+
+  border-radius: var(--radius-card);
+
+  padding: 36px;
+
+  backdrop-filter: blur(24px);
+
+  box-shadow: var(--shadow-card);
+
+  margin-bottom: 20px;
+
+}
+
+.result-eyebrow {
+
+  font-size: 11px;
+
+  letter-spacing: 0.12em;
+
+  text-transform: uppercase;
+
+  color: var(--gold);
+
+  margin-bottom: 10px;
+
+  font-weight: 700;
+
+}
+
+.result-title {
+
+  font-size: clamp(22px, 4vw, 30px);
+
+  font-weight: 800;
+
+  letter-spacing: -0.02em;
+
+  color: var(--white);
+
+  margin-bottom: 16px;
+
+  line-height: 1.25;
+
+}
+
+.result-desc {
+
+  font-size: 15px;
+
+  color: var(--text-muted);
+
+  line-height: 1.7;
+
+  margin-bottom: 24px;
+
+}
+
+.result-tips {
+
+  list-style: none;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+
+}
+
+.result-tips li {
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 10px;
+
+  font-size: 14px;
+
+  color: var(--text-main);
+
+  line-height: 1.5;
+
+}
+
+.result-tips li::before {
+
+  content: '✦';
+
+  color: var(--gold);
+
+  font-size: 12px;
+
+  margin-top: 3px;
+
+  flex-shrink: 0;
+
+}
+
+/* ============================================================
+
+   ЭКРАН ФОРМЫ
+
+   ============================================================ */
+
+#screen-form {
+
+  padding: 80px 0 60px;
+
+  justify-content: flex-start;
+
+}
+
+.form-inner { padding: 20px 0 0; }
+
+.form-header {
+
+  text-align: center;
+
+  margin-bottom: 36px;
+
+}
+
+.form-title {
+
+  font-size: clamp(24px, 4vw, 36px);
+
+  font-weight: 800;
+
+  letter-spacing: -0.02em;
+
+  color: var(--white);
+
+  margin-bottom: 10px;
+
+  line-height: 1.2;
+
+}
+
+.form-sub {
+
+  font-size: 15px;
+
+  color: var(--text-muted);
+
+}
+
+.form-card {
+
+  background: var(--glass-bg);
+
+  border: 1px solid var(--glass-border);
+
+  border-radius: var(--radius-card);
+
+  padding: 36px;
+
+  backdrop-filter: blur(24px);
+
+  box-shadow: var(--shadow-card);
+
+}
+
+.form-group {
+
+  margin-bottom: 20px;
+
+}
+
+.form-label {
+
+  display: block;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  letter-spacing: 0.06em;
+
+  text-transform: uppercase;
+
+  color: var(--text-muted);
+
+  margin-bottom: 8px;
+
+}
+
+.form-input {
+
+  width: 100%;
+
+  background: rgba(255,255,255,0.05);
+
+  border: 1.5px solid rgba(255,255,255,0.1);
+
+  border-radius: 12px;
+
+  padding: 14px 18px;
+
+  font-size: 15px;
+
+  color: var(--white);
+
+  outline: none;
+
+  transition: border-color 0.18s, box-shadow 0.18s;
+
+  font-family: inherit;
+
+}
+
+.form-input::placeholder { color: rgba(255,255,255,0.3); }
+
+.form-input:focus {
+
+  border-color: var(--violet-lt);
+
+  box-shadow: 0 0 0 3px rgba(123,111,232,0.2);
+
+}
+
+.form-submit {
+
+  width: 100%;
+
+  margin-top: 8px;
+
+}
+
+/* Социальное доказательство */
+
+.social-proof {
+
+  text-align: center;
+
+  margin-top: 20px;
+
+  font-size: 13px;
+
+  color: var(--text-muted);
+
+}
+
+.social-proof strong { color: var(--lavender); }
+
+/* ============================================================
+
+   ДЕКОРАТИВНЫЕ ЭЛЕМЕНТЫ (светящиеся шары)
+
+   ============================================================ */
+
+.orb {
+
+  position: fixed;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  z-index: 0;
+
+}
+
+.orb-1 {
+
+  width: 400px;
+
+  height: 400px;
+
+  background: radial-gradient(circle, rgba(91,79,207,0.15) 0%, transparent 70%);
+
+  top: -100px;
+
+  left: -100px;
+
+}
+
+.orb-2 {
+
+  width: 300px;
+
+  height: 300px;
+
+  background: radial-gradient(circle, rgba(232,201,126,0.08) 0%, transparent 70%);
+
+  bottom: 10%;
+
+  right: -50px;
+
+}
+
+/* ============================================================
+
+   АДАПТИВНОСТЬ
+
+   ============================================================ */
+
+@media (max-width: 480px) {
+
+  .question-card { padding: 24px 20px 20px; }
+
+  .answer-card   { padding: 14px 16px; }
+
+  .result-card   { padding: 24px 20px; }
+
+  .form-card     { padding: 24px 20px; }
+
+  .block-card    { padding: 48px 28px; }
+
+  .hero-stats    { gap: 20px; }
+
+}
+
+/* Уважение к настройкам анимации */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,* ::before, *::after {
+
+    animation-duration: 0.01ms !important;
+
+    transition-duration: 0.01ms !important;
+
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- Декоративные «туманности» -->
+
+<div class="orb orb-1"></div>
+
+<div class="orb orb-2"></div>
+
+<!-- ============================================================
+
+     ПОЛОСА ПРОГРЕССА (видна только во время квиза)
+
+     ============================================================ -->
+
+<div class="progress-wrap" id="progress-wrap" style="display:none">
+
+  <div class="progress-header">
+
+    <span class="progress-label" id="progress-block-name">Уверенность</span>
+
+    <span class="progress-fraction" id="progress-fraction">Вопрос 1 из 16</span>
+
+  </div>
+
+  <div class="progress-bar-track">
+
+    <div class="progress-bar-fill" id="progress-fill"></div>
+
+  </div>
+
+</div>
+
+<!-- ============================================================
+
+     ЭКРАН 1: ГЛАВНЫЙ
+
+     ============================================================ -->
+
+<div class="screen active" id="screen-hero">
+
+  <div class="container" style="display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:100vh;padding-top:40px;padding-bottom:40px;">
+
+    <div class="hero-inner animate-in">
+
+      <div class="hero-badge">
+
+        <span class="flag">🇫🇷</span>
+
+        Тест для изучающих французский язык
+
+      </div>
+
+      <h1 class="hero-title">
+
+        Что мешает вам<br>
+
+        <span class="accent">свободно говорить</span><br>
+
+        по-французски?
+
+      </h1>
+
+      <p class="hero-sub">
+
+        Пройдите короткий тест за 2 минуты<br>
+
+        и получите персональную рекомендацию от преподавателя.
+
+      </p>
+
+      <div class="hero-stats">
+
+        <div class="hero-stat">
+
+          <span class="hero-stat-num">16</span>
+
+          <div class="hero-stat-label">вопросов</div>
+
+        </div>
+
+        <div class="hero-stat">
+
+          <span class="hero-stat-num">2 мин</span>
+
+          <div class="hero-stat-label">времени</div>
+
+        </div>
+
+        <div class="hero-stat">
+
+          <span class="hero-stat-num">4</span>
+
+          <div class="hero-stat-label">результата</div>
+
+        </div>
+
+      </div>
+
+      <button class="btn-primary" onclick="startQuiz()">
+
+        Начать тест
+
+        <svg class="btn-arrow" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+          <path d="M4 10h12M11 5l5 5-5 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+        </svg>
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ============================================================
+
+     ЭКРАН 2: ПЕРЕХОД К БЛОКУ
+
+     ============================================================ -->
+
+<div class="screen" id="screen-block">
+
+  <div class="block-card animate-in" id="block-card">
+
+    <div class="block-number" id="block-number-label">Блок 1 из 4</div>
+
+    <span class="block-icon" id="block-icon">🗣</span>
+
+    <h2 class="block-title" id="block-title">Уверенность</h2>
+
+    <p class="block-desc" id="block-desc">Насколько вы уверены в себе, когда говорите по-французски?</p>
+
+    <button class="btn-primary" onclick="startBlock()">
+
+      Начать
+
+      <svg class="btn-arrow" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+        <path d="M4 10h12M11 5l5 5-5 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+      </svg>
+
+    </button>
+
+  </div>
+
+</div>
+
+<!-- ============================================================
+
+     ЭКРАН 3: КВИЗ
+
+     ============================================================ -->
+
+<div class="screen" id="screen-quiz">
+
+  <div class="container quiz-inner">
+
+    <!-- Карточка вопроса -->
+
+    <div class="question-card" id="question-card">
+
+      <div class="question-block-label" id="q-block-label">Уверенность</div>
+
+      <p class="question-text" id="question-text">Вопрос появится здесь</p>
+
+    </div>
+
+    <!-- Варианты ответов -->
+
+    <div class="answers-grid" id="answers-grid"></div>
+
+  </div>
+
+</div>
+
+<!-- ============================================================
+
+     ЭКРАН 4: РЕЗУЛЬТАТ
+
+     ============================================================ -->
+
+<div class="screen" id="screen-result">
+
+  <div class="container result-inner">
+
+    <div class="result-score-wrap animate-in">
+
+      <div class="result-score-ring">
+
+        <span class="result-score-num" id="result-score-num">0</span>
+
+        <span class="result-score-label">баллов</span>
+
+      </div>
+
+    </div>
+
+    <div class="result-card animate-in" id="result-card">
+
+      <div class="result-eyebrow">Ваш главный барьер</div>
+
+      <h2 class="result-title" id="result-title">Заголовок результата</h2>
+
+      <p class="result-desc" id="result-desc">Описание появится здесь.</p>
+
+      <ul class="result-tips" id="result-tips"></ul>
+
+    </div>
+
+    <div style="text-align:center;margin-top:28px;" class="animate-in">
+
+      <a id="tg-result-btn" href="#" target="_blank" class="btn-primary" style="font-size:15px;padding:16px 36px;text-decoration:none;display:inline-flex;">
+
+        Хочу узнать следующий шаг
+
+        <svg class="btn-arrow" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-left:10px;">
+
+          <path d="M4 10h12M11 5l5 5-5 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+        </svg>
+
+      </a>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ============================================================
+
+     ЭКРАН 5: ФОРМА
+
+     ============================================================ -->
+
+<div class="screen" id="screen-form">
+
+  <div class="container form-inner">
+
+    <div class="form-header animate-in">
+
+      <h2 class="form-title">Записаться на<br><span style="background:linear-gradient(135deg,var(--gold),var(--lavender));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">бесплатный урок</span></h2>
+
+      <p class="form-sub">Оставьте контакты — я выйду на связь в течение часа</p>
+
+    </div>
+
+    <div class="form-card animate-in">
+
+      <div class="form-group">
+
+        <label class="form-label" for="f-name">Ваше имя</label>
+
+        <input class="form-input" id="f-name" type="text" placeholder="Как вас зовут?">
+
+      </div>
+
+      <div class="form-group">
+
+        <label class="form-label" for="f-phone">Телефон</label>
+
+        <input class="form-input" id="f-phone" type="tel" placeholder="+7 (___) ___-__-__">
+
+      </div>
+
+      <div class="form-group">
+
+        <label class="form-label" for="f-tg">Telegram</label>
+
+        <input class="form-input" id="f-tg" type="text" placeholder="@username">
+
+      </div>
+
+      <button class="btn-primary form-submit" onclick="submitForm()">
+
+        Записаться на урок 🇫🇷
+
+      </button>
+
+    </div>
+
+    <p class="social-proof">
+
+      Уже <strong>200+ студентов</strong> прошли пробный урок и продолжили обучение
+
+    </p>
+
+  </div>
+
+</div>
+
+<!-- ============================================================
+
+     СЦЕНАРИИ
+
+     ============================================================ -->
+
+<script>
+
+/* ----------------------------------------------------------
+
+   ДАННЫЕ КВИЗА
+
+   4 блока × 4 вопроса = 16 вопросов
+
+   Каждый ответ: текст + баллы (0-3)
+
+   ---------------------------------------------------------- */
+
+const blocks = [
+
+  {
+
+    id: 1,
+
+    name: "Уверенность",
+
+    icon: "🗣",
+
+    desc: "Насколько вы чувствуете себя уверенно, когда говорите по-французски?",
+
+    questions: [
+
+      {
+
+        text: "Когда вы пытаетесь сказать что-то по-французски вслух, что происходит?",
+
+        answers: [
+
+          { text: "Я легко говорю, иногда запинаюсь, но продолжаю", score: 3 },
+
+          { text: "Стараюсь, но часто теряюсь и замолкаю", score: 2 },
+
+          { text: "Думаю на русском, пытаюсь перевести — выходит медленно", score: 1 },
+
+          { text: "Избегаю говорить — боюсь ошибиться", score: 0 }
+
+        ]
+
+      },
+
+      {
+
+        text: "Если носитель языка не понял вашу фразу, как вы реагируете?",
+
+        answers: [
+
+          { text: "Перефразирую или объясняю по-другому", score: 3 },
+
+          { text: "Повторяю то же самое, только медленнее", score: 2 },
+
+          { text: "Смущаюсь и пытаюсь перейти на английский", score: 1 },
+
+          { text: "Краснею, извиняюсь и замолкаю", score: 0 }
+
+        ]
+
+      },
+
+      {
+
+        text: "Как вы себя чувствуете перед разговором на французском?",
+
+        answers: [
+
+          { text: "Спокойно — воспринимаю как обычное общение", score: 3 },
+
+          { text: "Слегка волнуюсь, но готов попробовать", score: 2 },
+
+          { text: "Заметно нервничаю, но преодолеваю себя", score: 1 },
+
+          { text: "Сильная тревога — предпочитаю избегать", score: 0 }
+
+        ]
+
+      },
+
+      {
+
+        text: "Если вы допустили ошибку в разговоре, что вы ощущаете?",
+
+        answers: [
+
+          { text: "Ничего особенного — ошибки это нормально", score: 3 },
+
+          { text: "Небольшой дискомфорт, но быстро прохожу", score: 2 },
+
+          { text: "Стыжусь и долго думаю об этом", score: 1 },
+
+          { text: "Ошибка выбивает меня из колеи надолго", score: 0 }
+
+        ]
+
+      }
+
+    ]
+
+  },
+
+  {
+
+    id: 2,
+
+    name: "Практика",
+
+    icon: "🎯",
+
+    desc: "Как часто и как именно вы практикуете французский язык?",
+
+    questions: [
+
+      {
+
+        text: "Как часто вы практикуете разговорный французский?",
+
+        answers: [
+
+          { text: "Каждый день или почти каждый день", score: 3 },
+
+          { text: "2-3 раза в неделю", score: 2 },
+
+          { text: "Раз в неделю или реже", score: 1 },
+
+          { text: "Практически не практикую", score: 0 }
+
+        ]
+
+      },
+
+      {
+
+        text: "Где вы обычно практикуете французский?",
+
+        answers: [
+
+          { text: "С носителями языка или в языковом клубе", score: 3 },
+
+          { text: "С преподавателем на уроках", score: 2 },
+
+          { text: "С приложениями типа Duolingo или Babbel", score: 1 },
+
+          { text: "Только читаю или смотрю — не говорю", score: 0 }
+
+        ]
+
+      },
+
+      {
+
+        text: "Как давно вы изучаете французский?",
+
+        answers: [
+
+          { text: "Больше 2 лет с регулярными занятиями", score: 3 },
+
+          { text: "Год-два, но с перерывами", score: 2 },
+
+          { text: "Меньше года или самостоятельно", score: 1 },
+
+          { text: "Только начинаю или давно забросил", score: 0 }
+
+        ]
+
+      },
+
+      {
+
+        text: "Что происходит, когда вы не занимаетесь несколько недель?",
+
+        answers: [
+
+          { text: "Навыки сохраняются — быстро вхожу в ритм", score: 3 },
+
+          { text: "Немного «ржавею», но за занятие восстанавливаюсь", score: 2 },
+
+          { text: "Значительно теряю то, что освоил", score: 1 },
+
+          { text: "Кажется, что начинаю почти с нуля", score: 0 }
+
+        ]
+
+      }
+
+    ]
+
+  },
+
+  {
+
+    id: 3,
+
+    name: "Память",
+
+    icon: "🧠",
+
+    desc: "Как у вас устроена работа с лексикой и запоминанием?",
+
+    questions: [
+
+      {
+
+        text: "Как вы обычно запоминаете новые французские слова?",
+
+        answers: [
+
+          { text: "Использую слово в контексте — предложениях и разговоре", score: 3 },
+
+          { text: "Повторяю несколько раз и записываю", score: 2 },
+
+          { text: "Карточки или приложения для зубрёжки", score: 1 },
+
+          { text: "Никак — слова «не держатся» в голове", score: 0 }
+
+        ]
+
+      },
+
+      {
+
+        text: "Что происходит, когда вам нужно вспомнить слово в разговоре?",
+
+        answers: [
+
+          { text: "В основном нахожу нужное слово быстро", score: 3 },
+
+          { text: "Иногда задерживаюсь, но вспоминаю", score: 2 },
+
+          { text: "Часто «крутится на языке» — и не вспоминается", score: 1 },
+
+          { text: "Регулярно теряюсь и не знаю, как сказать", score: 0 }
+
+        ]
+
+      },
+
+      {
+
+        text: "Насколько вы комфортно понимаете французскую речь на слух?",
+
+        answers: [
+
+          { text: "Понимаю большую часть — акцент не сильно мешает", score: 3 },
+
+          { text: "Понимаю медленную речь или знакомые темы", score: 2 },
+
+          { text: "Улавливаю отдельные слова, но смысл теряю", score: 1 },
+
+          { text: "Почти ничего не понимаю на слух", score: 0 }
+
+        ]
+
+      },
+
+      {
+
+        text: "Сколько слов французского вы считаете активными (используете в речи)?",
+
+        answers: [
+
+          { text: "Больше 1500 — могу выразить большинство мыслей", score: 3 },
+
+          { text: "500–1500 — хватает для бытовых тем", score: 2 },
+
+          { text: "200–500 — базовые фразы и ситуации", score: 1 },
+
+          { text: "Меньше 200 — очень ограниченный запас", score: 0 }
+
+        ]
+
+      }
+
+    ]
+
+  },
+
+  {
+
+    id: 4,
+
+    name: "Мотивация",
+
+    icon: "🌟",
+
+    desc: "Что движет вами в изучении французского языка?",
+
+    questions: [
+
+      {
+
+        text: "Зачем вы изучаете французский язык?",
+
+        answers: [
+
+          { text: "Конкретная цель: работа, переезд, путешествие, партнёр", score: 3 },
+
+          { text: "Хочу свободно говорить — просто потому что нравится", score: 2 },
+
+          { text: "Давно начал, продолжаю по инерции", score: 1 },
+
+          { text: "Не уверен — цель размыта или потерялась", score: 0 }
+
+        ]
+
+      },
+
+      {
+
+        text: "Что происходит с вашими занятиями, когда жизнь становится напряжённой?",
+
+        answers: [
+
+          { text: "Продолжаю — даже если только 10 минут в день", score: 3 },
+
+          { text: "Делаю перерыв, но возвращаюсь быстро", score: 2 },
+
+          { text: "Забрасываю на недели и сложно вернуться", score: 1 },
+
+          { text: "Давно уже не занимаюсь регулярно", score: 0 }
+
+        ]
+
+      },
+
+      {
+
+        text: "Как вы себя чувствуете после хорошего урока или успешного разговора?",
+
+        answers: [
+
+          { text: "Воодушевлён — хочется ещё больше практики", score: 3 },
+
+          { text: "Доволен, но быстро возвращаюсь к рутине", score: 2 },
+
+          { text: "Радуюсь, но это не меняет моих привычек", score: 1 },
+
+          { text: "Редко получаю такие ощущения — успехов мало", score: 0 }
+
+        ]
+
+      },
+
+      {
+
+        text: "Когда вы думаете о свободном владении французским, что чувствуете?",
+
+        answers: [
+
+          { text: "Ясно вижу эту цель — и знаю, как к ней идти", score: 3 },
+
+          { text: "Хочу этого, но путь кажется длинным", score: 2 },
+
+          { text: "Мечтаю, но не верю, что достижимо для меня", score: 1 },
+
+          { text: "Сомневаюсь, зачем вообще это начал", score: 0 }
+
+        ]
+
+      }
+
+    ]
+
+  }
+
+];
+
+/* ----------------------------------------------------------
+
+   РЕЗУЛЬТАТЫ (4 диапазона баллов: 0-11, 12-23, 24-35, 36-48)
+
+   ---------------------------------------------------------- */
+
+const results = [
+
+  {
+
+    minScore: 36,
+
+    title: "Недостаток разговорной практики",
+
+    desc: "У вас крепкая база — словарный запас есть, грамматику вы знаете, мотивация высокая. Но живой разговорной практики не хватает. Ваш мозг ещё не «переключился» на французский как на рабочий инструмент общения.",
+
+    tips: [
+
+      "Найдите языкового партнёра или клуб для регулярной практики",
+
+      "Практикуйте «думайте на французском» — думайте на французском в повседневных ситуациях",
+
+      "Слушайте подкасты и повторяйте фразы вслух сразу после диктора",
+
+      "Ставьте разговорные цели на каждый урок — не «учить», а «сказать»"
+
+    ],
+
+    tgMessage: "Привет! Я прошла тест и узнала, что мой главный барьер — недостаток разговорной практики. Хочу узнать следующий шаг 🇫🇷"
+
+  },
+
+  {
+
+    minScore: 24,
+
+    title: "Страх ошибок",
+
+    desc: "Ваши знания лучше, чем вы думаете. Главное, что тормозит вас — внутренний критик, который не даёт открыть рот. Перфекционизм в языке работает против вас: он блокирует именно ту практику, которая нужна для роста.",
+
+    tips: [
+
+      "Переформулируйте отношение к ошибкам: они — это данные, а не провал",
+
+      "Практикуйте «неловкие» разговоры в безопасной обстановке — с преподавателем",
+
+      "Используйте технику «сначала говорите, потом исправляйте» — сначала говорите, потом анализируете",
+
+      "Ведите дневник маленьких побед — каждый раз, когда сказали что-то новое"
+
+    ],
+
+    tgMessage: "Привет! Я прошла тест и узнала, что мой главный барьер — страх ошибок. Хочу узнать следующий шаг 🇫🇷"
+
+  },
+
+  {
+
+    minScore: 12,
+
+    title: "Недостаток словарного запаса",
+
+    desc: "Вы понимаете французскую речь и имеете базу, но в нужный момент слова «не находятся». Активный словарный запас — это то, что нужно целенаправленно строить через регулярное использование слов в контексте, а не зубрёжку.",
+
+    tips: [
+
+      "Изучайте слова не списками, а тематическими блоками в живых диалогах",
+
+      "Читайте адаптированные тексты на французском — это расширяет пассивный запас",
+
+      "Используйте метод «интервальное повторение» — приложения Anki или Clozemaster",
+
+      "На каждом уроке ставьте задачу использовать 5 новых слов в разговоре"
+
+    ],
+
+    tgMessage: "Привет! Я прошла тест и узнала, что мой главный барьер — недостаток словарного запаса. Хочу узнать следующий шаг 🇫🇷"
+
+  },
+
+  {
+
+    minScore: 0,
+
+    title: "Неуверенность в себе",
+
+    desc: "Вы в самом начале пути, или долгое время без практики подорвало вашу веру в себя. Хорошая новость: при правильном подходе и поддержке прогресс приходит быстро. Вам нужна структура, поддержка и регулярность — именно это даёт хороший преподаватель.",
+
+    tips: [
+
+      "Начните с малого: короткие ежедневные сессии по 15-20 минут важнее редких долгих",
+
+      "Работайте с преподавателем в форматах, которые вас не перегружают",
+
+      "Отмечайте каждый маленький прогресс — он реальный и важный",
+
+      "Окружите себя французским: музыка, фильмы, подкасты — даже фоном"
+
+    ],
+
+    tgMessage: "Привет! Я прошла тест и узнала, что мой главный барьер — неуверенность в себе. Хочу узнать следующий шаг 🇫🇷"
+
+  }
+
+];
+
+/* ----------------------------------------------------------
+
+   СОСТОЯНИЕ ПРИЛОЖЕНИЯ
+
+   ---------------------------------------------------------- */
+
+let state = {
+
+  currentBlock: 0,       // индекс текущего блока (0-3)
+
+  currentQuestion: 0,    // индекс вопроса внутри блока (0-3)
+
+  globalQuestion: 0,     // общий номер вопроса (0-15)
+
+  totalScore: 0,
+
+  isTransitioning: false // защита от двойных кликов
+
+};
+
+/* ----------------------------------------------------------
+
+   ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+
+   ---------------------------------------------------------- */
+
+// Переключение экранов с анимацией
+
+function showScreen(id) {
+
+  document.querySelectorAll('.screen').forEach(s => {
+
+    s.classList.remove('active');
+
+    s.style.display = 'none';
+
+  });
+
+  const next = document.getElementById(id);
+
+  next.style.display = 'flex';
+
+  // Следующий кадр — добавляем класс для анимации
+
+  requestAnimationFrame(() => {
+
+    next.classList.add('active');
+
+    // Прокручиваем наверх
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  });
+
+}
+
+// Обновление полосы прогресса
+
+function updateProgress() {
+
+  const total = 16;
+
+  const current = state.globalQuestion + 1;
+
+  const pct = Math.round(((state.globalQuestion) / total) * 100);
+
+  document.getElementById('progress-fill').style.width = pct + '%';
+
+  document.getElementById('progress-fraction').textContent = `Вопрос ${current} из ${total}`;
+
+  document.getElementById('progress-block-name').textContent = blocks[state.currentBlock].name;
+
+}
+
+// Отрисовка вопроса с анимацией
+
+function renderQuestion() {
+
+  const block = blocks[state.currentBlock];
+
+  const question = block.questions[state.currentQuestion];
+
+  const card = document.getElementById('question-card');
+
+  const grid = document.getElementById('answers-grid');
+
+  // Анимируем исчезновение
+
+  card.style.animation = 'fadeSlideOut 0.25s ease forwards';
+
+  grid.style.animation = 'fadeSlideOut 0.25s ease forwards';
+
+  setTimeout(() => {
+
+    // Обновляем содержимое
+
+    document.getElementById('q-block-label').textContent = block.name;
+
+    document.getElementById('question-text').textContent = question.text;
+
+    // Генерируем карточки ответов
+
+    const letters = ['А', 'Б', 'В', 'Г'];
+
+    grid.innerHTML = question.answers.map((ans, i) => `
+
+      <div class="answer-card" onclick="selectAnswer(${i}, ${ans.score}, this)" role="button" tabindex="0"
+
+           onkeydown="if(event.key==='Enter'||event.key===' ')selectAnswer(${i},${ans.score},this)">
+
+        <div class="answer-letter">${letters[i]}</div>
+
+        <div class="answer-text">${ans.text}</div>
+
+      </div>
+
+    `).join('');
+
+    // Анимируем появление
+
+    card.style.animation = 'fadeSlideIn 0.4s cubic-bezier(.22,1,.36,1) forwards';
+
+    grid.style.animation = 'fadeSlideIn 0.4s cubic-bezier(.22,1,.36,1) 0.06s forwards';
+
+    grid.style.opacity = '0';
+
+    setTimeout(() => { grid.style.opacity = ''; }, 60);
+
+    updateProgress();
+
+  }, 250);
+
+}
+
+/* ----------------------------------------------------------
+
+   ОСНОВНАЯ ЛОГИКА
+
+   ---------------------------------------------------------- */
+
+// Старт квиза — показываем первый экран блока
+
+function startQuiz() {
+
+  state = { currentBlock: 0, currentQuestion: 0, globalQuestion: 0, totalScore: 0, isTransitioning: false };
+
+  document.getElementById('progress-wrap').style.display = 'block';
+
+  showBlockScreen(0);
+
+}
+
+// Экран «Блок X»
+
+function showBlockScreen(blockIdx) {
+
+  const block = blocks[blockIdx];
+
+  document.getElementById('block-number-label').textContent = `Блок ${block.id} из 4`;
+
+  document.getElementById('block-icon').textContent = block.icon;
+
+  document.getElementById('block-title').textContent = block.name;
+
+  document.getElementById('block-desc').textContent = block.desc;
+
+  // Пересоздаём карточку для перезапуска анимации
+
+  const card = document.getElementById('block-card');
+
+  card.style.animation = 'none';
+
+  requestAnimationFrame(() => {
+
+    card.style.animation = 'fadeSlideIn 0.45s cubic-bezier(.22,1,.36,1) forwards';
+
+  });
+
+  showScreen('screen-block');
+
+}
+
+// Нажатие «Начать» на экране блока
+
+function startBlock() {
+
+  showScreen('screen-quiz');
+
+  renderQuestion();
+
+}
+
+// Выбор ответа
+
+function selectAnswer(answerIdx, score, el) {
+
+  // Защита от двойного клика
+
+  if (state.isTransitioning) return;
+
+  if (el.classList.contains('selected')) return;
+
+  state.isTransitioning = true;
+
+  // Подсвечиваем выбранный
+
+  el.classList.add('selected');
+
+  // Накапливаем баллы
+
+  state.totalScore += score;
+
+  state.currentQuestion++;
+
+  state.globalQuestion++;
+
+  // Задержка перед переходом — дать пользователю увидеть выбор
+
+  setTimeout(() => {
+
+    state.isTransitioning = false;
+
+    advance();
+
+  }, 600);
+
+}
+
+// Логика продвижения
+
+function advance() {
+
+  const isLastQuestionInBlock = state.currentQuestion >= 4;
+
+  const isLastBlock = state.currentBlock >= 3;
+
+  if (!isLastQuestionInBlock) {
+
+    // Следующий вопрос в том же блоке
+
+    renderQuestion();
+
+  } else if (!isLastBlock) {
+
+    // Переходим к следующему блоку
+
+    state.currentBlock++;
+
+    state.currentQuestion = 0;
+
+    showBlockScreen(state.currentBlock);
+
+  } else {
+
+    // Квиз завершён!
+
+    document.getElementById('progress-wrap').style.display = 'none';
+
+    showResult();
+
+  }
+
+}
+
+// Показ результата
+
+function showResult() {
+
+  const score = state.totalScore;
+
+  document.getElementById('result-score-num').textContent = score;
+
+  // Ищем подходящий результат (первый, чей minScore ≤ score)
+
+  const result = results.find(r => score >= r.minScore) || results[results.length - 1];
+
+  document.getElementById('result-title').textContent = result.title;
+
+  document.getElementById('result-desc').textContent = result.desc;
+
+  const tipsEl = document.getElementById('result-tips');
+
+  tipsEl.innerHTML = result.tips.map(tip => `<li>${tip}</li>`).join('');
+
+  // Формируем персональную ссылку на Telegram с нужным текстом для этой группы
+
+  const tgLink = 'https://t.me/jtutofrench?text=' + encodeURIComponent(result.tgMessage);
+
+  document.getElementById('tg-result-btn').href = tgLink;
+
+  showScreen('screen-result');
+
+}
+
+// Переход к форме
+
+function goToForm() {
+
+  showScreen('screen-form');
+
+}
+
+// Отправка формы (заглушка)
+
+function submitForm() {
+
+  const name  = document.getElementById('f-name').value.trim();
+
+  const phone = document.getElementById('f-phone').value.trim();
+
+  const tg    = document.getElementById('f-tg').value.trim();
+
+  if (!name || !phone) {
+
+    // Небольшая визуальная подсказка
+
+    if (!name)  document.getElementById('f-name').style.borderColor  = '#e87e7e';
+
+    if (!phone) document.getElementById('f-phone').style.borderColor = '#e87e7e';
+
+    setTimeout(() => {
+
+      document.getElementById('f-name').style.borderColor  = '';
+
+      document.getElementById('f-phone').style.borderColor = '';
+
+    }, 1800);
+
+    return;
+
+  }
+
+  alert('Спасибо! Я свяжусь с вами в ближайшее время 🇫🇷');
+
+}
+
+</script>
+
+</body>
+
+</html>
